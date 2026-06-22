@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===== СЕРДЕЧКИ =====
     const heartsContainer = document.getElementById('heartsContainer');
     const heartSymbols = ['❤️', '💕', '💖', '💗', '💓', '♥️'];
-
     function createHeart() {
         const heart = document.createElement('div');
         heart.className = 'heart';
@@ -28,7 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const loginPage = document.getElementById('loginPage');
     const mainPage = document.getElementById('mainPage');
     const CORRECT_CODE = '07122025';
-
     function checkCode() {
         const enteredCode = codeInput.value.trim();
         if (enteredCode === CORRECT_CODE) {
@@ -45,7 +43,6 @@ document.addEventListener('DOMContentLoaded', function() {
             codeInput.focus();
         }
     }
-
     loginBtn.addEventListener('click', checkCode);
     codeInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') { checkCode(); }
@@ -55,7 +52,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function startTimer() {
         const startDate = new Date(2025, 11, 7);
         const timerElement = document.getElementById('timer');
-
         function updateTimer() {
             const now = new Date();
             const diff = now - startDate;
@@ -73,7 +69,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===== ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК =====
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
-
     tabBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             tabBtns.forEach(b => b.classList.remove('active'));
@@ -88,7 +83,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-
     document.querySelectorAll('.tab-content').forEach(tab => { tab.style.display = 'none'; });
     document.querySelectorAll('.tab-btn').forEach(btn => { btn.classList.remove('active'); });
 
@@ -123,12 +117,10 @@ document.addEventListener('DOMContentLoaded', function() {
         "За то, как ты смущаешься, когда я говорю комплименты",
         "За то, что ты сделала мою жизнь ярче"
     ];
-
     let currentReasonIndex = 0;
     const reasonText = document.getElementById('reasonText');
     const reasonCounter = document.getElementById('reasonCounter');
     const nextBtn = document.getElementById('nextReasonBtn');
-
     function showReason(index) {
         if (!reasonText) return;
         reasonText.style.opacity = '0';
@@ -142,14 +134,11 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => { reasonText.style.animation = 'fadeInReason 0.6s ease'; }, 10);
         }, 300);
     }
-
     function nextReason() {
         currentReasonIndex = (currentReasonIndex + 1) % reasons.length;
         showReason(currentReasonIndex);
     }
-
     if (nextBtn) { nextBtn.addEventListener('click', nextReason); }
-
     let autoPlayInterval = setInterval(nextReason, 5000);
     if (nextBtn) {
         nextBtn.addEventListener('click', function() {
@@ -160,20 +149,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     if (reasonText) { showReason(0); }
 
-    // ===== ГАЛЕРЕЯ =====
-    let currentPhotoIndex = 0;
-    const totalPhotos = 25;
+    // ===== ГАЛЕРЕЯ (ВЕРТИКАЛЬНАЯ ПРОКРУТКА) =====
     let galleryLoaded = false;
-
     function loadGallery() {
         if (galleryLoaded) return;
         galleryLoaded = true;
-        const slide = document.getElementById('gallerySlide');
-        if (!slide) return;
-        slide.innerHTML = '';
-        for (let i = 1; i <= totalPhotos; i++) {
+        const container = document.getElementById('galleryScroll');
+        if (!container) return;
+        container.innerHTML = '';
+        for (let i = 1; i <= 25; i++) {
             const img = document.createElement('img');
-            img.src = './images/' + i + '.jpg';
+            img.src = 'images/' + i + '.jpg';
             img.alt = 'Фото ' + i;
             img.loading = 'lazy';
             img.draggable = false;
@@ -186,14 +172,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.style.fontSize = '14px';
                 this.style.minHeight = '200px';
             };
-            slide.appendChild(img);
-        }
-
-        const slider = document.getElementById('gallerySlider');
-        if (slider) {
             let lastTap = 0;
-            slider.addEventListener('click', function(e) {
-                if (e.target.tagName !== 'IMG') return;
+            img.addEventListener('click', function(e) {
                 const now = Date.now();
                 const timeSince = now - lastTap;
                 if (timeSince < 300 && timeSince > 0) {
@@ -202,53 +182,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 lastTap = now;
             });
+            container.appendChild(img);
         }
-        updateGallery();
     }
-
-    function updateGallery() {
-        const slide = document.getElementById('gallerySlide');
-        const counter = document.getElementById('galleryCounter');
-        if (!slide) return;
-        slide.style.transform = 'translateX(-' + (currentPhotoIndex * 100) + '%)';
-        if (counter) { counter.textContent = (currentPhotoIndex + 1) + ' / ' + totalPhotos; }
-    }
-
-    function prevPhoto() {
-        currentPhotoIndex = (currentPhotoIndex - 1 + totalPhotos) % totalPhotos;
-        updateGallery();
-    }
-
-    function nextPhoto() {
-        currentPhotoIndex = (currentPhotoIndex + 1) % totalPhotos;
-        updateGallery();
-    }
-
     function createLikeAnimation(element) {
         document.querySelectorAll('.like-animation').forEach(el => el.remove());
         const heart = document.createElement('div');
         heart.className = 'like-animation';
         heart.textContent = '❤️';
         heart.style.fontSize = (Math.random() * 30 + 60) + 'px';
-        element.appendChild(heart);
+        document.body.appendChild(heart);
         setTimeout(() => { heart.remove(); }, 800);
     }
-
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtnGallery = document.getElementById('nextBtn');
-    if (prevBtn) { prevBtn.addEventListener('click', function(e) { e.stopPropagation();
-            prevPhoto(); }); }
-    if (nextBtnGallery) { nextBtnGallery.addEventListener('click', function(e) { e.stopPropagation();
-            nextPhoto(); }); }
-
-    document.addEventListener('keydown', function(e) {
-        const gallery = document.getElementById('tab-gallery');
-        if (!gallery || gallery.style.display === 'none') return;
-        if (e.key === 'ArrowLeft') { e.preventDefault();
-            prevPhoto(); } else if (e.key === 'ArrowRight') { e.preventDefault();
-            nextPhoto(); }
-    });
-
     const galleryTab = document.getElementById('tab-gallery');
     if (galleryTab) {
         const observer = new MutationObserver(function() {
@@ -270,56 +215,45 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('galleryHintShown', 'true');
         });
     }
-        // ===== КАЛЕНДАРЬ =====
+
+    // ===== КАЛЕНДАРЬ =====
     let calCurrentDate = new Date();
     let calSelectedDate = null;
-
     function renderCalendar() {
         const year = calCurrentDate.getFullYear();
         const month = calCurrentDate.getMonth();
         const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
         document.getElementById('calMonthYear').textContent = monthNames[month] + ' ' + year;
-
         const firstDay = new Date(year, month, 1);
         const lastDay = new Date(year, month + 1, 0);
         let startOffset = firstDay.getDay();
         if (startOffset === 0) startOffset = 7;
         const today = new Date();
-
         const grid = document.getElementById('calGrid');
-        while (grid.children.length > 7) {
-            grid.removeChild(grid.lastChild);
-        }
-
+        while (grid.children.length > 7) { grid.removeChild(grid.lastChild); }
         for (let i = 1; i < startOffset; i++) {
             const empty = document.createElement('div');
             empty.className = 'day other-month';
             grid.appendChild(empty);
         }
-
         for (let d = 1; d <= lastDay.getDate(); d++) {
             const day = document.createElement('div');
             day.className = 'day';
             day.textContent = d;
-
             if (d === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
                 day.classList.add('today');
             }
-
             if (calSelectedDate && d === calSelectedDate.getDate() && month === calSelectedDate.getMonth() && year === calSelectedDate.getFullYear()) {
                 day.classList.add('selected');
             }
-
             day.addEventListener('click', function() {
                 calSelectedDate = new Date(year, month, d);
                 document.getElementById('calSelectedDate').textContent = formatCalendarDate(calSelectedDate);
                 document.querySelectorAll('#calGrid .day').forEach(el => el.classList.remove('selected'));
                 this.classList.add('selected');
             });
-
             grid.appendChild(day);
         }
-
         const totalCells = startOffset - 1 + lastDay.getDate();
         const remainder = totalCells % 7;
         if (remainder > 0) {
@@ -330,53 +264,38 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     }
-
     function formatCalendarDate(date) {
         const days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
         const months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
         return days[date.getDay()] + ', ' + date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
     }
-
     document.getElementById('calPrevBtn').addEventListener('click', function() {
         calCurrentDate.setMonth(calCurrentDate.getMonth() - 1);
         renderCalendar();
     });
-
     document.getElementById('calNextBtn').addEventListener('click', function() {
         calCurrentDate.setMonth(calCurrentDate.getMonth() + 1);
         renderCalendar();
     });
 
-        // ===== ОТПРАВКА НА ПОЧТУ =====
+    // ===== ОТПРАВКА НА ПОЧТУ =====
     document.getElementById('calSubmitBtn').addEventListener('click', function() {
         const date = calSelectedDate;
         const time = document.getElementById('calTimeInput').value;
         const idea = document.getElementById('calIdeaInput').value.trim();
-
         if (!date) { alert('Выбери дату в календаре! ❤️'); return; }
         if (!time) { alert('Введи время! ⏰'); return; }
         if (!idea) { alert('Напиши идею для свидания! 💡'); return; }
-
         const btn = document.getElementById('calSubmitBtn');
         const successMsg = document.getElementById('calSuccessMessage');
-
         btn.disabled = true;
         btn.textContent = '⏳ Отправка...';
-
         const formattedDate = formatCalendarDate(date);
         const createdAt = new Date().toLocaleString('ru-RU');
-
         fetch('http://localhost:3000/send-email', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                date: formattedDate,
-                time: time,
-                idea: idea,
-                created: createdAt
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ date: formattedDate, time: time, idea: idea, created: createdAt })
         })
         .then(response => response.json())
         .then(data => {
@@ -384,16 +303,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 successMsg.classList.add('show');
                 btn.textContent = '✨ Отправить желание';
                 btn.disabled = false;
-
                 document.getElementById('calTimeInput').value = '';
                 document.getElementById('calIdeaInput').value = '';
                 document.querySelectorAll('#calGrid .day').forEach(el => el.classList.remove('selected'));
                 calSelectedDate = null;
                 document.getElementById('calSelectedDate').textContent = 'Выберите дату в календаре';
-
-                setTimeout(() => {
-                    successMsg.classList.remove('show');
-                }, 5000);
+                setTimeout(() => { successMsg.classList.remove('show'); }, 5000);
             } else {
                 alert('❌ Ошибка отправки. Попробуй ещё раз!');
                 btn.textContent = '✨ Отправить желание';
@@ -408,6 +323,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-       // Инициализация календаря
     renderCalendar();
 });
