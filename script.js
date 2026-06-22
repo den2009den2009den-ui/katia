@@ -278,49 +278,29 @@ document.addEventListener('DOMContentLoaded', function() {
         renderCalendar();
     });
 
-    // ===== ОТПРАВКА НА ПОЧТУ =====
+                    // ===== ОТПРАВКА (без почты) =====
     document.getElementById('calSubmitBtn').addEventListener('click', function() {
         const date = calSelectedDate;
         const time = document.getElementById('calTimeInput').value;
         const idea = document.getElementById('calIdeaInput').value.trim();
+
         if (!date) { alert('Выбери дату в календаре! ❤️'); return; }
         if (!time) { alert('Введи время! ⏰'); return; }
         if (!idea) { alert('Напиши идею для свидания! 💡'); return; }
-        const btn = document.getElementById('calSubmitBtn');
+
         const successMsg = document.getElementById('calSuccessMessage');
-        btn.disabled = true;
-        btn.textContent = '⏳ Отправка...';
-        const formattedDate = formatCalendarDate(date);
-        const createdAt = new Date().toLocaleString('ru-RU');
-        fetch('http://localhost:3000/send-email', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ date: formattedDate, time: time, idea: idea, created: createdAt })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                successMsg.classList.add('show');
-                btn.textContent = '✨ Отправить желание';
-                btn.disabled = false;
-                document.getElementById('calTimeInput').value = '';
-                document.getElementById('calIdeaInput').value = '';
-                document.querySelectorAll('#calGrid .day').forEach(el => el.classList.remove('selected'));
-                calSelectedDate = null;
-                document.getElementById('calSelectedDate').textContent = 'Выберите дату в календаре';
-                setTimeout(() => { successMsg.classList.remove('show'); }, 5000);
-            } else {
-                alert('❌ Ошибка отправки. Попробуй ещё раз!');
-                btn.textContent = '✨ Отправить желание';
-                btn.disabled = false;
-            }
-        })
-        .catch(error => {
-            console.error('Ошибка:', error);
-            alert('❌ Не удалось отправить. Проверь, запущен ли сервер!');
-            btn.textContent = '✨ Отправить желание';
-            btn.disabled = false;
-        });
+
+        successMsg.classList.add('show');
+
+        document.getElementById('calTimeInput').value = '';
+        document.getElementById('calIdeaInput').value = '';
+        document.querySelectorAll('#calGrid .day').forEach(el => el.classList.remove('selected'));
+        calSelectedDate = null;
+        document.getElementById('calSelectedDate').textContent = 'Выберите дату в календаре';
+
+        setTimeout(() => {
+            successMsg.classList.remove('show');
+        }, 5000);
     });
 
     renderCalendar();
