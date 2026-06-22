@@ -278,7 +278,7 @@ document.addEventListener('DOMContentLoaded', function() {
         renderCalendar();
     });
 
-                    // ===== ОТПРАВКА (без почты) =====
+                        // ===== ОТПРАВКА (открывает почтовый клиент) =====
     document.getElementById('calSubmitBtn').addEventListener('click', function() {
         const date = calSelectedDate;
         const time = document.getElementById('calTimeInput').value;
@@ -290,8 +290,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const successMsg = document.getElementById('calSuccessMessage');
 
+        // Формируем письмо
+        const subject = encodeURIComponent('❤️ Новое желание для свидания!');
+        const body = encodeURIComponent(
+            `📅 Дата: ${formatCalendarDate(date)}\n` +
+            `⏰ Время: ${time}\n` +
+            `💡 Идея: ${idea}\n\n` +
+            `❤️ Твоя Катя 💕`
+        );
+
+        // Открываем почтовый клиент
+        window.location.href = `mailto:denzipghh@yandex.ru?subject=${subject}&body=${body}`;
+
+        // Показываем успех
         successMsg.classList.add('show');
 
+        // Очищаем поля
         document.getElementById('calTimeInput').value = '';
         document.getElementById('calIdeaInput').value = '';
         document.querySelectorAll('#calGrid .day').forEach(el => el.classList.remove('selected'));
