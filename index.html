@@ -7,26 +7,19 @@
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-    <!-- ========== СТРАНИЦА 1: ВХОД С КОДОМ ========== -->
     <div id="loginPage">
         <div id="heartsContainer"></div>
-
         <div class="login-box">
             <h1>Привет, моя любовь ❤️</h1>
             <p class="subtitle">Введи секретный код, и я открою тебе всё…</p>
             <p class="hint">💭 Помнишь тот день, когда ты перестала быть мне подругой?</p>
-
             <input type="password" id="codeInput" maxlength="8" placeholder="Введи код" />
             <button id="loginBtn">Открыть</button>
-
             <p id="errorMessage">Наверно, ты не попала по нужной цифре, попробутай еще раз))</p>
         </div>
     </div>
 
-    <!-- ========== СТРАНИЦА 2: ГЛАВНАЯ С ВКЛАДКАМИ ========== -->
     <div id="mainPage" style="display: none;">
-
         <div class="tabs">
             <button class="tab-btn" data-tab="history">📖 История</button>
             <button class="tab-btn" data-tab="gallery">📸 Галерея</button>
@@ -42,61 +35,27 @@
                 <div id="timer">Мы вместе уже 0 дней, 0 часов, 0 минут</div>
             </div>
 
-            <!-- ===== ВКЛАДКА: ИСТОРИЯ ===== -->
             <div class="tab-content" id="tab-history" style="display: none;">
                 <h3>📖 Наша история</h3>
                 <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-date">28.11.2025</div>
-                        <div class="timeline-icon">✉️</div>
-                        <div class="timeline-text">Я написал тебе</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-date">07.12.2025</div>
-                        <div class="timeline-icon">❤️</div>
-                        <div class="timeline-text">Первая прогулка и предложение встречаться</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-date">22.12.2025</div>
-                        <div class="timeline-icon">💋</div>
-                        <div class="timeline-text">Первый поцелуй</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-date">31.12.2025</div>
-                        <div class="timeline-icon">🌙</div>
-                        <div class="timeline-text">Первая ночёвка</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-date">29.03.2026</div>
-                        <div class="timeline-icon">🔥</div>
-                        <div class="timeline-text">18+</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-date">09.06.2026</div>
-                        <div class="timeline-icon">🎂</div>
-                        <div class="timeline-text">День рождения Кати</div>
-                    </div>
+                    <div class="timeline-item"><div class="timeline-date">28.11.2025</div><div class="timeline-icon">✉️</div><div class="timeline-text">Я написал тебе</div></div>
+                    <div class="timeline-item"><div class="timeline-date">07.12.2025</div><div class="timeline-icon">❤️</div><div class="timeline-text">Первая прогулка и предложение встречаться</div></div>
+                    <div class="timeline-item"><div class="timeline-date">22.12.2025</div><div class="timeline-icon">💋</div><div class="timeline-text">Первый поцелуй</div></div>
+                    <div class="timeline-item"><div class="timeline-date">31.12.2025</div><div class="timeline-icon">🌙</div><div class="timeline-text">Первая ночёвка</div></div>
+                    <div class="timeline-item"><div class="timeline-date">29.03.2026</div><div class="timeline-icon">🔥</div><div class="timeline-text">18+</div></div>
+                    <div class="timeline-item"><div class="timeline-date">09.06.2026</div><div class="timeline-icon">🎂</div><div class="timeline-text">День рождения Кати</div></div>
                 </div>
             </div>
 
-            <!-- ===== ВКЛАДКА: ГАЛЕРЕЯ ===== -->
             <div class="tab-content" id="tab-gallery" style="display: none;">
                 <h3>📸 Фотогалерея</h3>
                 <div class="like-hint" id="likeHint">
                     <p>💡 Ставь ❤️ двойным тапом по фото</p>
                     <button class="hint-btn" id="closeHintBtn">Хорошо, любимый ❤️</button>
                 </div>
-                <div class="gallery-wrapper">
-                    <button class="gallery-nav prev" id="prevBtn">‹</button>
-                    <div class="gallery-slider" id="gallerySlider">
-                        <div class="gallery-slide" id="gallerySlide"></div>
-                    </div>
-                    <button class="gallery-nav next" id="nextBtn">›</button>
-                </div>
-                <div class="gallery-counter" id="galleryCounter">1 / 25</div>
+                <div class="gallery-scroll" id="galleryScroll"></div>
             </div>
 
-            <!-- ===== ВКЛАДКА: ПОЧЕМУ Я ЛЮБЛЮ ===== -->
             <div class="tab-content" id="tab-reasons" style="display: none;">
                 <h3>💌 Почему я тебя люблю</h3>
                 <div class="reasons-container">
@@ -106,60 +65,36 @@
                 </div>
             </div>
 
-            <!-- ===== ВКЛАДКА: КАЛЕНДАРЬ ===== -->
             <div class="tab-content" id="tab-calendar" style="display: none;">
                 <h3>📅 Календарь свиданий</h3>
                 <p class="calendar-subtitle">Выбери дату, время и придумай идею для нашего свидания ❤️</p>
-
                 <div class="calendar-wrapper">
                     <div class="calendar-header">
                         <button class="cal-nav" id="calPrevBtn">‹</button>
                         <span class="month-year" id="calMonthYear">Июнь 2026</span>
                         <button class="cal-nav" id="calNextBtn">›</button>
                     </div>
-
                     <div class="calendar-grid" id="calGrid">
-                        <div class="weekday">Пн</div>
-                        <div class="weekday">Вт</div>
-                        <div class="weekday">Ср</div>
-                        <div class="weekday">Чт</div>
-                        <div class="weekday">Пт</div>
-                        <div class="weekday">Сб</div>
-                        <div class="weekday">Вс</div>
+                        <div class="weekday">Пн</div><div class="weekday">Вт</div><div class="weekday">Ср</div>
+                        <div class="weekday">Чт</div><div class="weekday">Пт</div><div class="weekday">Сб</div><div class="weekday">Вс</div>
                     </div>
-
                     <div class="selected-date-display" id="calSelectedDate">Выберите дату в календаре</div>
-
-                    <div class="form-group">
-                        <label>⏰ Время</label>
-                        <input type="time" id="calTimeInput" />
-                    </div>
-
-                    <div class="form-group">
-                        <label>💡 Идея для свидания</label>
-                        <textarea id="calIdeaInput" placeholder="Например: пойти в кино, устроить пикник, сходить в ресторан..."></textarea>
-                    </div>
-
+                    <div class="form-group"><label>⏰ Время</label><input type="time" id="calTimeInput" /></div>
+                    <div class="form-group"><label>💡 Идея для свидания</label><textarea id="calIdeaInput" placeholder="Например: пойти в кино..."></textarea></div>
                     <button class="submit-btn" id="calSubmitBtn">✨ Отправить желание</button>
-
-                    <div class="success-message" id="calSuccessMessage">
-                        <h3>❤️ Отправлено!</h3>
-                        <p>Твоё желание улетело к любимому ❤️</p>
-                    </div>
+                    <div class="success-message" id="calSuccessMessage"><h3>❤️ Отправлено!</h3><p>Твоё желание улетело к любимому ❤️</p></div>
                 </div>
             </div>
 
-            <!-- ===== ВКЛАДКА: СЕКРЕТНО ===== -->
             <div class="tab-content" id="tab-secret" style="display: none;">
                 <h3>🎁 Секретный раздел</h3>
                 <div class="secret-container">
                     <div class="secret-icon">💌</div>
                     <h2 class="secret-title">Здесь скоро появится кое-что особенное...</h2>
                     <p class="secret-text">Я готовлю для тебя сюрприз, который ты точно не ожидаешь ❤️</p>
-                    <p class="secret-hint">Загляни сюда через несколько дней ;)</p>
+                    <p class="secret-hint">Загляни сюда через пару дней ;)</p>
                 </div>
             </div>
-
         </div>
     </div>
 
